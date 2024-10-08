@@ -1,0 +1,35 @@
+GET http://localhost:5109/1
+
+####
+POST http://localhost:5109/
+Content-Type: application/json
+
+{
+   "name"               : "аыва",
+   "surname"            : "вав",
+   "lastname"           : "вав",
+   "phonenumber"        : "19301930", 
+   "wishes"             : "аа",
+   "adress"             : "аа",
+   "apartnumber"        : "21", 
+   "day"                : "12",
+   "month"              : "2",
+   "year"               : "2023",
+   "necessity"          : "",
+   "admin"              : ""
+}
+
+####
+PUT http://localhost:5109/1
+Content-Type: application/json
+
+{
+    "CheckindateDate": "2024-10-13T12:00:00",
+    "DepartureDate": "2024-10-15T12:00:00",
+    "Wishes": "Поздний заезд",
+    "Necessity": "Дополнительные полотенца",
+    "Admin": "Мария"
+}
+
+###
+GET http://localhost:5109/search?admin=Олег

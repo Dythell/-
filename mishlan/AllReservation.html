@@ -1,0 +1,86 @@
+﻿﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Заявки</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            white-space: nowrap;
+        }
+    </style>
+
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Номер</th>
+            <th>ФИО</th>
+            <th>Номер телефона</th>
+            <th>Пожелания</th>
+            <th>Адрес отеля</th>
+            <th>Номер аппартаментов</th>
+            <th>Дата заезда</th>
+            <th>Дата выезда</th>
+            <th>Необходимость</th>
+            <th>Админ</th>
+        </tr>
+    </table>
+    <script>
+        let table = document.querySelector("table");
+        GetOrders();
+
+        async function GetOrders()
+        {
+            let response = await fetch("http://localhost:5109/", { method: "GET" });
+            let orders = await response.json();
+
+            orders.forEach(ord => {
+                let Tr = document.createElement("tr");
+
+                Tr.append(CreateTd(ord.number));
+                Tr.append(CreateTd(ord.fullName));
+                Tr.append(CreateTd(ord.phonenumber));
+                Tr.append(CreateTd(ord.wishes));
+                Tr.append(CreateTd(ord.adress));
+                Tr.append(CreateTd(ord.apartnumber));
+                let checkindateDate = new Date(ord.checkindateDate).toLocaleDateString();
+                let departureDate = ord.DepartureDate ? new Date(ord.departureDate).toLocaleDateString() : "—";
+
+                Tr.append(CreateTd(checkindateDate));
+                Tr.append(CreateTd(departureDate));
+                Tr.append(CreateTd(ord.necessity));
+                Tr.append(CreateTd(ord.admin));
+ 
+
+
+
+                table.append(Tr);
+            });
+
+        }
+
+        function CreateTd(data)
+        {
+            let td = document.createElement("td");
+            td.textContent = data ? data.toString() : "—";
+            return td;
+        }
+    </script>
+</body>
+</html>

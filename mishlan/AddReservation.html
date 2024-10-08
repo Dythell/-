@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>Добавить заявку</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            margin-bottom: 15px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добавить заявку</h1>
+    <form id="reservationForm">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" required />
+
+        <label for="surname">Фамилия:</label>
+        <input type="text" id="surname" required />
+
+        <label for="lastname">Отчество:</label>
+        <input type="text" id="lastname" required />
+
+        <label for="phonenumber">Номер телефона:</label>
+        <input type="tel" id="phonenumber" required />
+
+        <label for="wishes">Пожелания:</label>
+        <textarea id="wishes"></textarea>
+
+        <label for="address">Адрес отеля:</label>
+        <input type="text" id="address" required />
+
+        <label for="apartnumber">Номер аппартаментов:</label>
+        <input type="number" id="apartnumber" required />
+
+        <label for="checkindate">Дата заезда:</label>
+        <input type="date" id="checkindate" required />
+
+        <label for="departuredate">Дата выезда:</label>
+        <input type="date" id="departuredate" />
+
+        <label for="necessity">Необходимость:</label>
+        <input type="text" id="necessity" required />
+
+        <label for="admin">Админ:</label>
+        <input type="text" id="admin" required />
+
+        <button type="submit">Добавить заявку</button>
+    </form>
+
+    <script>
+        document.getElementById("reservationForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const formData = {
+                Name: document.getElementById("name").value,
+                Surname: document.getElementById("surname").value,
+                Lastname: document.getElementById("lastname").value,
+                Phonenumber: parseInt(document.getElementById("phonenumber").value, 10),
+                Wishes: document.getElementById("wishes").value,
+                Adress: document.getElementById("address").value,
+                Apartnumber: parseInt(document.getElementById("apartnumber").value, 10),
+                CheckindateDate: new Date(document.getElementById("checkindate").value).toISOString(),
+                DepartureDate: document.getElementById("departuredate").value ? new Date(document.getElementById("departuredate").value).toISOString() : null,
+                Necessity: document.getElementById("necessity").value,
+                Admin: document.getElementById("admin").value
+            };
+
+            const response = await fetch("http://localhost:5109/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                alert("Заявка добавлена успешно!");
+                document.getElementById("reservationForm").reset();
+            } else {
+                alert("Ошибка при добавлении заявки.");
+            }
+        });
+    </script>
+</body>
+</html>
